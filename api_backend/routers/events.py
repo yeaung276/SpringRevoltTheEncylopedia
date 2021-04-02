@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schema.postSchema import Event
+from schema.eventSchema import Event
 
 router = APIRouter()
 
@@ -16,8 +16,11 @@ def createEvent(request:Event):
     return request
 
 @router.put('/update-event/{id}')
-def updateEvent(id:int):
-    return f'event {id} updated'
+def updateEvent(id:int,request:Event):
+    return {
+        'id': id,
+        **vars(request)
+    }
 
 @router.delete('/delete-event/{id}')
 def deleteEvent(id:int):
