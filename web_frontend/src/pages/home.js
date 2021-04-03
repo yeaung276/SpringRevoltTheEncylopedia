@@ -1,11 +1,18 @@
 import React from 'react';
+import {Layout} from 'antd';
+import PageHeader from '../Components/PageHeader';
+import PageFooter from '../Components/PageFooter';
 
 
 function Home(){
     return(
-        <React.Fragment>
-            Home
-        </React.Fragment>
+       <Layout>
+           <PageHeader/>
+           <Layout.Content>
+               Home
+           </Layout.Content>
+           <PageFooter/>
+       </Layout>
     )
 }
 
