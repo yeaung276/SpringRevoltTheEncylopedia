@@ -7,29 +7,29 @@ function EventSlider(){
             breakpoint="lg"
             style={{
                 overflow: 'auto',
-                height: '100vh',
+                height: '90vh',
                 left: 0,
                 backgroundColor: '#0b032d',
             }}
         >
-            <div classname='timeline-slider-container'>
+            <div className='timeline-slider-container'>
                 <Timeline style={{color: '#4b4b4b'}}>
-                    <Timeline.Item>2015-09-01   13-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   10-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   1-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   0-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   13-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   10-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   1-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   0-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   13-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   10-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   1-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   0-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   13-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   10-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   1-recorded event</Timeline.Item>
-                    <Timeline.Item>2015-09-01   0-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   13-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   10-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   1-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   0-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   13-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   10-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   1-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   0-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   13-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   10-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   1-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   0-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   13-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   10-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   1-recorded event</Timeline.Item>
+                    <Timeline.Item className='item'>2015-09-01   0-recorded event</Timeline.Item>
                 </Timeline>
             </div>
             

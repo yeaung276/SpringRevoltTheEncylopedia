@@ -57,5 +57,13 @@ code {
 }
 
 .timeline-slider-container{
-  padding: 1rem;
+  padding: 1rem .5rem 1rem .5rem;
 }
+.timeline-slider-container .item:hover{
+  color: #74546a;
+}
+
+.event-container{
+  padding: 2rem;
+}
+
