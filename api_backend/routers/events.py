@@ -1,27 +1,38 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm import Session
+from database import get_db
 from schema.eventSchema import Event
+from models import models
 
-router = APIRouter()
+eventRouter = APIRouter()
 
-@router.get('/events')
-def getEvents():
-    return 'all events'
+events = []
 
-@router.get('/events/{id}')
-def getEvent(id:int):
-    return f'event {id}'
+@eventRouter.get('/events')
+def getEvents(db:Session=Depends(get_db)):
+    return db.query(models.Event).all()
 
-@router.post('/create-event')
-def createEvent(request:Event):
-    return request
+@eventRouter.get('/events/{id}')
+def getEvent(id:int,db:Session=Depends(get_db)):
+    return db.query(models.Event).filter(models.Event.id==id).first()
 
-@router.put('/update-event/{id}')
+@eventRouter.post('/create-event')
+def createEvent(requestBody:Event,db:Session=Depends(get_db)):
+    new_event = models.Event(datetime=requestBody.datetime,
+                            title=requestBody.title,title_img=requestBody.title_img,location=requestBody.location)
+
+    db.add(new_event)
+    db.commit()
+    db.refresh(new_event)
+    return new_event
+
+@eventRouter.put('/update-event/{id}')
 def updateEvent(id:int,request:Event):
     return {
         'id': id,
         **vars(request)
     }
 
-@router.delete('/delete-event/{id}')
+@eventRouter.delete('/delete-event/{id}')
 def deleteEvent(id:int):
     return f'event {id} deleted'

@@ -1,10 +1,17 @@
 from fastapi import FastAPI
 import routers.events as Events
+import routers.timelines as Timelines
+from database import Base, engine
+from models import models
+
 
 app = FastAPI()
 
+models.Base.metadata.create_all(bind=engine)
 
-app.include_router(Events.router)
+
+app.include_router(Events.eventRouter)
+app.include_router(Timelines.timelineRouter)
 
 @app.get('/')
 def hello():

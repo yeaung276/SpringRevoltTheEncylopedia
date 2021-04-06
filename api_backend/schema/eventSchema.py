@@ -17,10 +17,11 @@ class Media(Item):
 
 class Event(BaseModel):
     title:str
+    title_img: str
     datetime: datetime
     location: str
     tags: List[str] = []
-    items: List[Item] = []
+    # items: List[Item] = []
     
     
     
