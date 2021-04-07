@@ -22,6 +22,22 @@ class Event(BaseModel):
     location: str
     tags: List[str] = []
     # items: List[Item] = []
+
+class eventGeneral(BaseModel):
+    id: int
+    title: str
+    title_img: str
+    datetime: datetime
+    class Config():
+        orm_mode = True
+
+def toEventModel(event:Event):
+    return {
+        'title': event.title,
+        'title_img': event.title_img,
+        'datetime': event.datetime,
+        'location': event.location
+    }
     
     
     
