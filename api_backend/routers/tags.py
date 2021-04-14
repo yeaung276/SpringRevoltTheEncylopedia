@@ -4,13 +4,16 @@ from models import models
 from database import get_db
 
 
-tagRouter = APIRouter()
+tagRouter = APIRouter(
+    prefix='/tags',
+    tags=['tags']
+)
 
-@tagRouter.get('/tags',tags=['tags'])
+@tagRouter.get('')
 def getTags(db:Session = Depends(get_db)):
     return db.query(models.Tag).all()
 
-@tagRouter.post('/create-tag',tags=['tags'])
+@tagRouter.post('/create-tag')
 def createTag(name:str,db:Session=Depends(get_db)):
     new_tag = models.Tag(name=name)
     db.add(new_tag)
@@ -18,7 +21,7 @@ def createTag(name:str,db:Session=Depends(get_db)):
     db.refresh(new_tag)
     return new_tag
 
-@tagRouter.delete('/delete-tag/{id}',tags=['tags'])
+@tagRouter.delete('/delete-tag/{id}')
 def deleteTag(id:int,db:Session=Depends(get_db)):
     tag = db.query(models.Tag).filter(models.Tag.id==id)
     if not tag.first():

@@ -6,3 +6,10 @@ class Hash:
     @staticmethod
     def bcrypt(pwd):
         return pwd_cxt.hash(pwd)
+
+    @staticmethod
+    def verify(hpwd,pwd):
+        return pwd_cxt.verify(hpwd,pwd)
+
+class Token:
+    pass

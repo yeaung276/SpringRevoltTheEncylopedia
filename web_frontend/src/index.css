@@ -59,11 +59,30 @@ code {
 .timeline-slider-container{
   padding: 1rem .5rem 1rem .5rem;
 }
+
+.timeline-slider-container .item{
+  color: rgb(124, 124, 124);
+}
 .timeline-slider-container .item:hover{
   color: #74546a;
+  cursor: pointer;
 }
 
 .event-container{
   padding: 2rem;
 }
 
+.spin-container {
+  margin: 20px 0;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  text-align: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.timeline-item:hover{
+  color: rgba(135, 245, 114, 0.514);
+  text-decoration: underline;
+}

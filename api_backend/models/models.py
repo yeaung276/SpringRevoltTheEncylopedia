@@ -16,17 +16,27 @@ class Event(Base):
     __tablename__ = 'Event'
 
     id = Column(Integer, index=True, primary_key=True)
-    datetime = Column(DateTime)
+    datetime_id = Column(Integer,ForeignKey('Date.id'))
     title = Column(String)
     title_img = Column(String)
     location = Column(String)
+    datetime = relationship('Date',back_populates='event')
     timeline = relationship('Timeline',back_populates='event')
+    tags = relationship('TagMapper',back_populates='event')
+    contents = relationship('Content',back_populates='event')
+
+class Date(Base):
+    __tablename__ = 'Date'
+    id = Column(Integer, index=True, primary_key=True)
+    datetime = Column(DateTime)
+    event = relationship('Event',back_populates='datetime')
 
 class Tag(Base):
     __tablename__ = 'Tag'
 
     id = Column(Integer, index=True, primary_key=True)
     name = Column(String)
+    events = relationship('TagMapper',back_populates='tag')
 
 class User(Base):
     __tablename__ = 'User'
@@ -41,4 +51,16 @@ class TagMapper(Base):
 
     id = Column(Integer, index=True, primary_key=True)
     event_id = Column(Integer, ForeignKey('Event.id'))
+    event = relationship('Event',back_populates='tags')
     tag_id = Column(Integer, ForeignKey('Tag.id'))
+    tag = relationship('Tag',back_populates='events')
+
+class Content(Base):
+    __tablename__ = 'Content'
+
+    id = Column(Integer, index=True, primary_key=True)
+    event_id = Column(Integer, ForeignKey('Event.id'))
+    event = relationship('Event',back_populates='contents')
+    content_type = Column(Integer)
+    label = Column(String)
+    content = Column(String) 

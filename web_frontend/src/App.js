@@ -5,6 +5,8 @@ import Home from './pages/home';
 import Timelines from './pages/Timelines';
 import AddNewTimeline from './pages/AddNewTimeline';
 import Events from './pages/Events';
+import EditTimeline from './pages/EditTimeline';
+import Content from './pages/Content';
 
 
 function App() {
@@ -13,7 +15,9 @@ function App() {
           <Route path='/home' component={Home} />
           <Route path='/timelines' component={Timelines} />
           <Route path='/add-new-timeline' component={AddNewTimeline} />
-          <Route path='/events' component={Events} />
+          <Route path='/edit-timeline/:id' component={EditTimeline}/>
+          <Route path='/events/:date_id' component={Events} />
+          <Route path='/content/:event_id' component={Content}/>
           <Route exact path='/' render={()=><Redirect to='/home' />} />
         </BrowserRouter>
    
