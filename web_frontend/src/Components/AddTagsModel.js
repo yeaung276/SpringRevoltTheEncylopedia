@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'antd/lib/modal/Modal';
 import { Button, Form, message, Input, Select } from 'antd';
+import Search from 'antd/lib/transfer/search';
 
 const layout = {
     labelCol: { span: 8 },
@@ -40,11 +41,11 @@ const AddTagsModel = (props)=> {
                         name="name"
                         rules={[{ required: true, message: 'Please input name!' }]}
                     >
-                        <Input/>
+                    <Search enterButton="Add"/>
                     </Form.Item>
                 </Form>
             </Modal>
-            <Button onClickCapture={()=>setVisible(true)}>Add Tag</Button>
+            <Button onClickCapture={()=>setVisible(true)}>Manage Tags</Button>
         </React.Fragment>
         
     )

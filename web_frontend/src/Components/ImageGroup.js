@@ -9,7 +9,7 @@ const ImageGroup = () => {
             <Descriptions layout="vertical">
             <Descriptions.Item label="Figure 1"><Image
                 width={300}
-                src={tall}
+                src='https://ia903408.us.archive.org/9/items/megaboxHD_201803/megaboxHD.jpg'
             /></Descriptions.Item>
             <Descriptions.Item label="Figure 2"><Image
                 width={300}

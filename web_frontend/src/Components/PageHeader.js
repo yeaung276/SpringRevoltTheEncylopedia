@@ -7,6 +7,7 @@ function PageHeader(props){
         <Layout.Header style={{backgroundColor: '#843b62'}} className='header'>
             <span style={{color: '#0b032d',fontSize: '1.5rem',fontWeight: 'bold'}} className='logo'>Spring Revolution Myanmar</span>
             <Space style={{float: 'right'}}>
+                <Button ghost={true} onClick={()=>props.history.push('/manage-tags')}>Manage Tags</Button>
                 <Button ghost={true} onClick={()=>props.history.push('/timelines')}>Timelines</Button>
                 <Button ghost={true} onClick={()=>props.history.push('/events/1')}>Events</Button>
             </Space>

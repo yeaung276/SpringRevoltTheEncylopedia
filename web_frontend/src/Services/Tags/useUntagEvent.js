@@ -1,36 +1,34 @@
-import {useState, useEffect} from 'react';
-import { BASE_URL } from '../../config';
+import {useState} from 'react';
 import { fetchRequest } from '../../utils/networkRequests';
+import { BASE_URL } from '../../config';
 
-function useGetEventByDate(id){
+const useUntagEvent = () => {
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
-    const [data, setData] = useState([])
     const [error, setError] = useState({})
+    const [data, setData] = useState()    
 
-    const refetch = () => {
+    const Untag = (id) => {
         //initial state
         setLoading(true)
         setSuccess(false)
-        return fetchRequest(BASE_URL+'/date/'+id)
+        return fetchRequest(BASE_URL+'/tags/untag-event/'+id,{},'delete',{})
         .then(data=>{
             //success state
             setLoading(false)
-            setData(data.data)
             setSuccess(true)
+            setData(data.data)
             setError({})
         })
         .catch(err=>{
             //error state
             setLoading(false)
             setSuccess(false)
-            setData([])
-            setError(err)
+            setData({})
+            setError(err.message)
         })
     }
-    // eslint-disable-next-line
-    useEffect(()=>refetch(),[])
-    return [data,{loading,success,error,refetch}]
+    return [data,{loading,success,error,Untag}]
 }
 
-export default useGetEventByDate;
+export default useUntagEvent;

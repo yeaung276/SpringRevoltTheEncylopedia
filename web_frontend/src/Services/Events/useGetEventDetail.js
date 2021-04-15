@@ -2,17 +2,17 @@ import {useState, useEffect} from 'react';
 import { BASE_URL } from '../../config';
 import { fetchRequest } from '../../utils/networkRequests';
 
-function useGetEventByDate(id){
+function useGetEventDetail(id){
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
-    const [data, setData] = useState([])
+    const [data, setData] = useState({})
     const [error, setError] = useState({})
 
     const refetch = () => {
         //initial state
         setLoading(true)
         setSuccess(false)
-        return fetchRequest(BASE_URL+'/date/'+id)
+        return fetchRequest(BASE_URL+'/events/'+id)
         .then(data=>{
             //success state
             setLoading(false)
@@ -24,7 +24,7 @@ function useGetEventByDate(id){
             //error state
             setLoading(false)
             setSuccess(false)
-            setData([])
+            setData({})
             setError(err)
         })
     }
@@ -33,4 +33,4 @@ function useGetEventByDate(id){
     return [data,{loading,success,error,refetch}]
 }
 
-export default useGetEventByDate;
+export default useGetEventDetail;

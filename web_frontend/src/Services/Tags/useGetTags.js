@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import { BASE_URL } from '../../config';
 import { fetchRequest } from '../../utils/networkRequests';
 
-function useGetEventByDate(id){
+function useGetTags(){
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [data, setData] = useState([])
@@ -12,7 +12,7 @@ function useGetEventByDate(id){
         //initial state
         setLoading(true)
         setSuccess(false)
-        return fetchRequest(BASE_URL+'/date/'+id)
+        return fetchRequest(BASE_URL+'/tags')
         .then(data=>{
             //success state
             setLoading(false)
@@ -33,4 +33,4 @@ function useGetEventByDate(id){
     return [data,{loading,success,error,refetch}]
 }
 
-export default useGetEventByDate;
+export default useGetTags;

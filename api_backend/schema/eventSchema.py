@@ -42,12 +42,14 @@ class Tag(BaseModel):
         orm_mode=True
 
 class TagMapper(BaseModel):
+    id: int
     tag:Tag
     class Config():
         orm_mode=True
 
 class eventDetail(eventGeneral):
     tags: List[TagMapper]
+    location: str
     contents: List[Content]
 
 class eventTags(BaseModel):

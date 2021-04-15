@@ -1,17 +1,44 @@
 import React from 'react';
-import { PageHeader, Button, Descriptions, Tag, Mentions, Select } from 'antd';
+import moment from 'moment';
+import { PageHeader, Button, Descriptions, Tag, Mentions, Select, message } from 'antd';
 import Header from '../Components/PageHeader';
 import {Layout} from 'antd';
 import PageFooter from '../Components/PageFooter';
 import { Option } from 'antd/lib/mentions';
 import ImageGroup from '../Components/ImageGroup';
 import AddImageModel from '../Components/AddImageModel';
-import AddTagsModel from '../Components/AddTagsModel';
 import useGetTagsByEvent from '../Services/Events/useGetTagsByEvent';
+import useGetEventDetail from '../Services/Events/useGetEventDetail';
+import useGetTags from '../Services/Tags/useGetTags';
+import useTagEvent from '../Services/Tags/useTagEvent';
+import useUntagEvent from '../Services/Tags/useUntagEvent';
 
 
 function Content(props){
     const [data,{refetch}] = useGetTagsByEvent(props.match.params.event_id);
+    const [event_data,{loading,refetch:eventRefetch}] = useGetEventDetail(props.match.params.event_id);
+    const [tag_data,{loading:tag_loading}] = useGetTags();
+    const [map_data,{error:mapError,tag}] = useTagEvent();
+    const [unmap_data,{error:unmapError,Untag}] = useUntagEvent();
+    
+    const handleTag = tag_id => {
+        tag(props.match.params.event_id,tag_id)
+        .then(()=>{
+            message.success('success',5)
+            refetch()
+        })
+        .catch(()=>message.error(mapError.meassage)) 
+    }
+
+    const handleUntag = (e,id) => {
+        e.preventDefault()
+        Untag(id)
+        .then(()=>{
+            message.success('success',5)
+            refetch()
+        })
+        .catch(()=>message.error(unmapError.message))
+    }
     
     return(
         <Layout>
@@ -21,23 +48,20 @@ function Content(props){
                     <PageHeader
                         ghost={false}
                         onBack={() => window.history.back()}
-                        title="Title"
-                        subTitle="This is a subtitle"
+                        title={event_data.title}
                         extra={[
-                            <Select defaultValue="lucy" style={{ width: 120 }}>
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
+                            <Select style={{ width: 120 }} loading={tag_loading} placeholder='select a tag to add' onChange={(id)=>handleTag(id)}>
+                                {tag_data.map(x=><Select.Option key={x.id} value={x.id}>{x.name}</Select.Option>)}
                             </Select>,
-                            <AddTagsModel/>,
                             <AddImageModel/>,
                             <Button key="1" type="primary">Save</Button>,
                         ]}
                     >
                         <Descriptions>
-                            <Descriptions.Item label="Datetime">3 April, 21</Descriptions.Item>
-                            <Descriptions.Item label="Location">Bago</Descriptions.Item>
+                            <Descriptions.Item label="Datetime">{moment(event_data.datetime).format('DD MMM, YY')}</Descriptions.Item>
+                            <Descriptions.Item label="Location">{event_data.location}</Descriptions.Item>
                             <Descriptions.Item label="Tags">
-                                {data.tags.map(x=><Tag key={x.id}>{x.name}</Tag>)}
+                                {data.tags && data.tags.map(x=><Tag key={x.id} closable onClose={(e)=>handleUntag(e,x.id)}>{x.tag.name}</Tag>)}
                             </Descriptions.Item>
                         </Descriptions>
                     </PageHeader>
