@@ -12,6 +12,8 @@ import useGetEventDetail from '../Services/Events/useGetEventDetail';
 import useGetTags from '../Services/Tags/useGetTags';
 import useTagEvent from '../Services/Tags/useTagEvent';
 import useUntagEvent from '../Services/Tags/useUntagEvent';
+import VideoGroup from '../Components/VideoGroup';
+import TextInput from '../Components/TextInput';
 
 
 function Content(props){
@@ -20,7 +22,8 @@ function Content(props){
     const [tag_data,{loading:tag_loading}] = useGetTags();
     const [map_data,{error:mapError,tag}] = useTagEvent();
     const [unmap_data,{error:unmapError,Untag}] = useUntagEvent();
-    
+
+
     const handleTag = tag_id => {
         tag(props.match.params.event_id,tag_id)
         .then(()=>{
@@ -48,29 +51,25 @@ function Content(props){
                     <PageHeader
                         ghost={false}
                         onBack={() => window.history.back()}
-                        title={event_data.title}
+                        title={event_data.data &&event_data.data.title}
                         extra={[
                             <Select style={{ width: 120 }} loading={tag_loading} placeholder='select a tag to add' onChange={(id)=>handleTag(id)}>
                                 {tag_data.map(x=><Select.Option key={x.id} value={x.id}>{x.name}</Select.Option>)}
                             </Select>,
-                            <AddImageModel/>,
-                            <Button key="1" type="primary">Save</Button>,
+                            <AddImageModel refresh={eventRefetch}/>
                         ]}
                     >
                         <Descriptions>
-                            <Descriptions.Item label="Datetime">{moment(event_data.datetime).format('DD MMM, YY')}</Descriptions.Item>
-                            <Descriptions.Item label="Location">{event_data.location}</Descriptions.Item>
+                            <Descriptions.Item label="Datetime">{event_data.data&&moment(event_data.data.datetime).format('DD MMM, YY')}</Descriptions.Item>
+                            <Descriptions.Item label="Location">{event_data.data&&event_data.data.location}</Descriptions.Item>
                             <Descriptions.Item label="Tags">
                                 {data.tags && data.tags.map(x=><Tag key={x.id} closable onClose={(e)=>handleUntag(e,x.id)}>{x.tag.name}</Tag>)}
                             </Descriptions.Item>
                         </Descriptions>
                     </PageHeader>
-                    <Mentions autoSize style={{padding: '.2rem 1rem .2rem 1rem'}} placeholder="You can use @ to mention event here">
-                        <Option value="afc163">afc163</Option>
-                        <Option value="zombieJ">zombieJ</Option>
-                        <Option value="yesmeck">yesmeck</Option>
-                    </Mentions>
-                    <ImageGroup/>
+                    <TextInput text={event_data.text} refresh={eventRefetch}/>
+                    <ImageGroup images={event_data.photos} refresh={eventRefetch}/>
+                    <VideoGroup videos={event_data.videos} refresh={eventRefetch}/>
                 </div>
                 <PageFooter/>
             </Layout.Content>

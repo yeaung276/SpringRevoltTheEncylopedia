@@ -47,10 +47,13 @@ class TagMapper(BaseModel):
     class Config():
         orm_mode=True
 
+class modContent(Content):
+    id:int
+
 class eventDetail(eventGeneral):
     tags: List[TagMapper]
     location: str
-    contents: List[Content]
+    contents: List[modContent]
 
 class eventTags(BaseModel):
     tags: List[TagMapper]

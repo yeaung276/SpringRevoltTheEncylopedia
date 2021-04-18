@@ -35,6 +35,10 @@ def createEvent(requestBody:Event,db:Session=Depends(get_db)):
     db.add(new_event)
     db.commit()
     db.refresh(new_event)
+    new_content = models.Content(event_id=new_event.id,content_type=0,label='',content='')
+    db.add(new_content)
+    db.commit()
+
     for tag_id in requestBody.tags:
         new_tagmap = models.TagMapper(event_id=new_event.id,tag_id=tag_id)
         db.add(new_tagmap)

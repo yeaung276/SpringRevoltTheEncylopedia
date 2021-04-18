@@ -8,6 +8,13 @@ function useGetEventDetail(id){
     const [data, setData] = useState({})
     const [error, setError] = useState({})
 
+    const rearrangeData = data => {
+        const photos = data.contents.filter(x=>x.content_type===1)
+        const videos = data.contents.filter(x=>x.content_type===2)
+        const text = data.contents.filter(x=>x.content_type===0)
+        setData({data,photos,videos,text})
+    }
+
     const refetch = () => {
         //initial state
         setLoading(true)
@@ -16,7 +23,7 @@ function useGetEventDetail(id){
         .then(data=>{
             //success state
             setLoading(false)
-            setData(data.data)
+            rearrangeData(data.data)
             setSuccess(true)
             setError({})
         })

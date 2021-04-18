@@ -86,3 +86,29 @@ code {
   color: rgba(135, 245, 114, 0.514);
   text-decoration: underline;
 }
+.video-responsive {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.save-text{
+  width: 100%;
+  background-color: white;
+  margin: 0;
+  padding-left: 1rem;
+  color: gray
+}
+
+.save-text:hover{
+  cursor: pointer;
+}

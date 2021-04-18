@@ -1,29 +1,27 @@
 import React from 'react';
-import { Image, Descriptions } from 'antd';
-import tall from '../images/he.jpeg';
-import he from '../images/tall.jpg';
+import { Image, Descriptions, Popconfirm, message } from 'antd';
+import useDeleteContent from '../Services/Contents/useDeleteContent';
 
-const ImageGroup = () => {
+const ImageGroup = ({images,refresh}) => {
+    const [data,{error,deleteContent}] = useDeleteContent()
+    const confirm = (id)=>{
+        deleteContent(id)
+        .then(()=>{
+            message.success('content deleted',5)
+            refresh()
+        })
+        .catch(()=>message.error(error.message))
+    }
     return(
         <Image.PreviewGroup>
             <Descriptions layout="vertical">
-            <Descriptions.Item label="Figure 1"><Image
-                width={300}
-                src='https://ia903408.us.archive.org/9/items/megaboxHD_201803/megaboxHD.jpg'
-            /></Descriptions.Item>
-            <Descriptions.Item label="Figure 2"><Image
-                width={300}
-                src={he}
-            /></Descriptions.Item>
-            
-            <Descriptions.Item label="Figure 1"><Image
-                width={300}
-                src={tall}
-            /></Descriptions.Item>
-            <Descriptions.Item label="Figure 2"><Image
-                width={300}
-                src={he}
-            /></Descriptions.Item>
+                {images&&images.map(x=>  
+                    <Descriptions.Item key={x.id} label={<Popconfirm title="Are you sure to delete this content?" onConfirm={()=>confirm(x.id)} okText="Yes" cancelText="No">{x.label}</Popconfirm>}>
+                    <Image
+                        width={300}
+                        src={x.content}
+                    /></Descriptions.Item>)}
+
             </Descriptions>
         </Image.PreviewGroup>
        

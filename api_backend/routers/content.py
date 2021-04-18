@@ -5,7 +5,7 @@ from schema.contentSchema import Content,ContentEditRequest
 from database import get_db
 
 contentRouter = APIRouter(
-    prefix='/content',
+    prefix='/contents',
     tags=['content']
 )
 
@@ -37,6 +37,6 @@ def deleteContent(id:int,db:Session=Depends(get_db)):
     content = db.query(models.Content).filter(models.Content.id==id)
     if not content.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='content not found')
-    content.delete(synchronize_action=False)
+    content.delete(synchronize_session=False)
     db.commit()
     return {'detail': 'done'}

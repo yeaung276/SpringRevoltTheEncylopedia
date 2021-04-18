@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Modal from 'antd/lib/modal/Modal';
-import { Button, Form, message, Input, Select } from 'antd';
+import { Button, Form, message, Input, Select, Spin } from 'antd';
+import useCreateContent from '../Services/Contents/useCreateContent';
+import { withRouter } from 'react-router-dom';
 
 const layout = {
     labelCol: { span: 8 },
@@ -10,12 +12,22 @@ const layout = {
 const AddImageModel = (props)=> {
     const [visible,setVisible] = useState(false)
     const [form] = Form.useForm();
+    const {event_id} = props.match.params;
+
+    const [data,{loading,error,createContent}] = useCreateContent();
 
     const handleCancel = ()=>setVisible(false)
 
     const handleOk = ()=>{
         const formData = form.getFieldsValue()
-        
+        createContent({event_id,...formData})
+        .then(()=>{
+            form.resetFields()
+            message.success('Content created',5)
+            setVisible(false)
+            props.refresh()
+        })
+        .catch(()=>message.error(error.message))
     
     }
     return(
@@ -29,35 +41,35 @@ const AddImageModel = (props)=> {
                 <Button key="back" onClick={handleCancel}>
                     Cancel
                 </Button>,
-                <Button key="submit" type="primary"  onClick={handleOk}>
-                    Submit
+                <Button key="submit" type="primary"  onClick={handleOk} loading={loading} disabled={loading}>
+                    {loading?<Spin/>:'Submit'}
                 </Button>
                 ]}
             >
-                <Form {...layout}>
+                <Form {...layout} form={form}>
                     <Form.Item
                         label="Media Type"
-                        name='media_type'
+                        name='content_type'
                         rules={[{ required: true, message: 'Please input date!' }]}
                     >
                         <Select
                             placeholder="Select a option and change input text above"
                             allowClear
                         >
-                            <Select.Option value={0}>Photo</Select.Option>
-                            <Select.Option value={1}>Video</Select.Option>
+                            <Select.Option value={1}>Photo</Select.Option>
+                            <Select.Option value={2}>Video</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item
                         label="Label"
-                        name="Label"
+                        name="label"
                         rules={[{ required: true, message: 'Please input date!' }]}
                     >
                         <Input/>
                     </Form.Item>
                     <Form.Item
                         label="URL"
-                        name="url"
+                        name="content"
                         rules={[{ required: true, message: 'Please input date!' }]}
                     >
                         <Input/>
@@ -70,4 +82,4 @@ const AddImageModel = (props)=> {
     )
 }
 
-export default AddImageModel;
+export default withRouter(AddImageModel);
