@@ -3,29 +3,22 @@ from typing import List, Optional
 from datetime import datetime
 from schema.contentSchema import Content
 
-class Item(BaseModel):
-    paragraph: Optional[str]
-    title: Optional[str]
-    link: Optional[str]
 
-class Paragraph(Item):
-    paragraph: str
 
-class Media(Item):
+class EventRequestBody(BaseModel):
     title: str
-    link: str
+    title_img: str
+    datetime: datetime
+    location: str
 
 class Date(BaseModel):
     datetime: datetime
     class Config():
         orm_mode = True
 
-class Event(BaseModel):
-    title:str
-    title_img: str
-    datetime: datetime
-    location: str
+class Event(EventRequestBody):#to delete
     tags: List[int] = []
+
     
 
 class eventGeneral(BaseModel):

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Layout,Timeline, Badge, Spin} from 'antd';
 import moment from 'moment';
 import useGetDates from '../Services/Dates/useGetDates';
 import { withRouter } from 'react-router-dom';
 
 function EventSlider(props){
-    const [data,{loading}] = useGetDates();
+    const [data,{loading,refetch}] = useGetDates();
 
     const handleClick = (id)=>{
         props.history.push('/events/'+id)
     }
+    useEffect(()=>refetch(),[props.refetch])
     return(
         <Layout.Sider 
             breakpoint="lg"

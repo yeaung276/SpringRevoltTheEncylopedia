@@ -35,11 +35,12 @@ function EventCard({event,refresh,history}){
             />
             }
             actions={[
-            <UpdateEventModel key='submit' event={event}/>,
+            <UpdateEventModel key='submit' event={event} refresh={refresh}/>,
             <Popconfirm
             title="Are you sure to delete this task?"
             visible={visible}
             onConfirm={handleDelete}
+            onCancel={()=>setVisible(false)}
             okButtonProps={loading}
             okText="Yes"
             cancelText="No"

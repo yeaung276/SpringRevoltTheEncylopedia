@@ -7,6 +7,7 @@ import { reverseTimelineTypes } from '../utils/types';
 import useGetTimeline from '../Services/useGetTimeline';
 import useEditTimeline from '../Services/useEditTimeline';
 import useDeleteTimeline from '../Services/useDeleteTimeline';
+import Loading from '../Components/Loading';
 
 const layout = {
     labelCol: { span: 5 },
@@ -68,7 +69,7 @@ function EditTimeline(props){
                             onBack={()=>window.history.back()}
                             title='Edit Timeline'
                             className='page-title'
-                        />
+                        />{loading?<Loading/>:
                         <Form
                         {...layout}
                         name="basic"
@@ -121,7 +122,7 @@ function EditTimeline(props){
                             </Row>
                                             
                         </Form.Item>
-                        </Form>
+                        </Form>}
                     </div>
                 </div> 
             </Layout.Content>

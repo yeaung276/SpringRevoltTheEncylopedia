@@ -18,7 +18,7 @@ function Events(props){
             <Header/>
             <Layout.Content>
                 <Layout>
-                    <EventSlider/>
+                    <EventSlider refetch={loading}/>
                     <Layout.Content>
                         <div className='event-container'>
                             <PageHeader 
@@ -26,8 +26,7 @@ function Events(props){
                                 title='Events'
                                 onBack={()=>window.history.back()}
                                 extra={[
-                                    <DatePicker.RangePicker/>,
-                                    <NewEventModel/>,
+                                    <NewEventModel refresh={refetch}/>,
                                 ]}
                             />
                             <Space size={[8,16]} wrap style={{height: '65vh',overflowX: 'auto', overflowY: 'scroll'}}>

@@ -60,7 +60,7 @@ class Content(Base):
 
     id = Column(Integer, index=True, primary_key=True)
     event_id = Column(Integer, ForeignKey('Event.id'))
-    event = relationship('Event',back_populates='contents')
     content_type = Column(Integer)
     label = Column(String)
     content = Column(String) 
+    event = relationship('Event',back_populates='contents')

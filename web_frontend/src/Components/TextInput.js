@@ -7,29 +7,36 @@ import useEditContent from '../Services/Contents/useEditContent';
 
 function TextInput({text,refresh}){
     const content = text?text[0]:{}
-    const [data,{loading,error,editContent}] = useEditContent(content.id||undefined);
+    const [data,{loading,error,editContent}] = useEditContent(content.id);
     const [form] = Form.useForm();
     const [savetime, setSavetime] = useState(moment());
     const [timedalta, setTimedalta] = useState();
 
+
     const updateTime = () => {
-        const now = moment()
-        setTimedalta(now.diff(savetime,'seconds'))
-        setSavetime(now)
+        setTimedalta(moment().diff(savetime,'seconds'))
     }
     const saveContent = ()=>{
+      
         const data = {
             label: '',
             content: form.getFieldValue('content')
         }
         editContent(data)
-        .then(()=>updateTime())
+        .then(()=>setSavetime(moment()))
         .catch(()=>message.error(error.message))
     }
     useEffect(()=>{
         const interval = setInterval(()=>saveContent(),60000)
         return ()=>clearInterval(interval)
     },[])
+    useEffect(()=>{
+        const interval = setInterval(()=>updateTime(),5000)
+        return ()=>clearInterval(interval)
+    },[])
+    useEffect(()=>{
+        form.setFields([{name: 'content',value: content.content}])
+    },[text])
 
     
     return(

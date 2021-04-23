@@ -1,95 +1,69 @@
 from typing import List
 from fastapi import APIRouter,Depends,status,HTTPException
+import repository.eventRepository as eventRepo
+import repository.datetimeRepository as datetimeRepo
+import repository.contentRepository as contentRepo
 from sqlalchemy.orm import Session
 from database import get_db
-from schema.eventSchema import Event,toEventModel,eventGeneral,eventDetail,eventTags
-from models import models
+import schema.eventSchema as eventSch
+
 
 eventRouter = APIRouter(
     prefix='/events',
     tags=['event']
 )
 
-
-@eventRouter.get('',response_model=List[eventGeneral])
-def getEvents(db:Session=Depends(get_db)):
-    return db.query(models.Event).all()
-
-@eventRouter.get('/{id}',response_model=eventDetail)
+@eventRouter.get('/{id}',response_model=eventSch.eventDetail)
 def getEvent(id:int,db:Session=Depends(get_db)):
-    event = db.query(models.Event).filter(models.Event.id==id).first()
+    event = eventRepo.getById(db,id)
     if not event:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Event not found')
     return  event
 
 @eventRouter.post('/create-event',status_code=status.HTTP_201_CREATED)
-def createEvent(requestBody:Event,db:Session=Depends(get_db)):
-    date = db.query(models.Date).filter(models.Date.datetime==requestBody.datetime).first()
+def createEvent(requestBody:eventSch.EventRequestBody,db:Session=Depends(get_db)):
+    # check if there is a date for the event
+    date = datetimeRepo.getByDatetime(db,requestBody.datetime)
+    # create one if not
     if not date:
-        date = models.Date(datetime=requestBody.datetime)
-        db.add(date)
-        db.commit()
-        db.refresh(date)
-    new_event = models.Event(datetime_id=date.id,
-                            title=requestBody.title,title_img=requestBody.title_img,location=requestBody.location)
-    db.add(new_event)
-    db.commit()
-    db.refresh(new_event)
-    new_content = models.Content(event_id=new_event.id,content_type=0,label='',content='')
-    db.add(new_content)
-    db.commit()
+        date = datetimeRepo.add(db,datetime=requestBody.datetime)
 
-    for tag_id in requestBody.tags:
-        new_tagmap = models.TagMapper(event_id=new_event.id,tag_id=tag_id)
-        db.add(new_tagmap)
-        db.commit()
-    db.flush()
+    # create the event
+    new_event = eventRepo.add(db,title=requestBody.title,title_img=requestBody.title_img,
+                                location=requestBody.location,datetime_id=date.id)
+    # add default content
+    contentRepo.add(db,event_id=new_event.id)
     return new_event
 
 @eventRouter.put('/update-event/{id}',status_code=status.HTTP_202_ACCEPTED)
-def updateEvent(id:int,requestBody:Event,db:Session=Depends(get_db)):
-    date = db.query(models.Date).filter(models.Date.datetime==requestBody.datetime).first()
+def updateEvent(id:int,requestBody:eventSch.EventRequestBody,db:Session=Depends(get_db)):
+    # check if there is a date for the event
+    date = datetimeRepo.getByDatetime(db,requestBody.datetime)
+    # create on if not
     if not date:
-        date = models.Date(datetime=requestBody.datetime)
-        db.add(date)
-        db.commit()
-        db.refresh(date)
-    event = db.query(models.Event).filter(models.Event.id==id)
-    if not event.first():
+        date = datetimeRepo.add(db,datetime=requestBody.datetime)
+    event = eventRepo.getById(db,id)
+    if not event:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Event not found')
-    event.update(toEventModel(requestBody,date.id))
+    event.datetime_id = date.id
+    event.title = requestBody.title
+    event.title_img = requestBody.title_img
+    event.location = requestBody.location
     db.commit()
-    return requestBody
+    db.refresh(event)
+    return event
 
 @eventRouter.delete('/delete-event/{id}')
 def deleteEvent(id:int,db:Session=Depends(get_db)):
-    event = db.query(models.Event).filter(models.Event.id==id)
-    if not event.first():
+    event = eventRepo.getById(db,id)
+    if not event:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='event not found')
-    event.delete(synchronize_session=False)
-    db.commit()
+    eventRepo.deleteById(db,id)
     return {'detail': 'done'}
 
-@eventRouter.get('/getTags/{id}',response_model=eventTags)
+@eventRouter.get('/getTags/{id}',response_model=eventSch.eventTags)
 def getTagsByEvent(id:int,db:Session=Depends(get_db)):
-    event = db.query(models.Event).get(id)
+    event = eventRepo.getById(db,id)
     if not event:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Event not found')
     return  event
-
-@eventRouter.post('/addTags/{id}')
-def addTagToEvent(id:int,tag_id:int,db:Session=Depends(get_db)):
-    new_tagmap = models.TagMapper(event_id=id,tag_id=tag_id)
-    db.add(new_tagmap)
-    db.commit()
-    db.flush()
-    return {'detail': 'Tag added'}
-
-@eventRouter.delete('/removeTags/{id}')
-def removeTagFromEvent(id:int,db:Session=Depends(get_db)):
-    tag = db.query(models.TagMapper).filter(models.TagMapper.id==id)
-    if not tag:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='record not found')
-    tag.delete(synchronize_session=False)
-    db.commit()
-    return {'detail': 'record deleted'}

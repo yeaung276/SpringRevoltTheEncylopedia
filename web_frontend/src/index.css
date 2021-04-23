@@ -112,3 +112,10 @@ code {
 .save-text:hover{
   cursor: pointer;
 }
+
+.home-image{
+  width: 100vw;
+  height: 300px;
+  display: flex;
+  text-align: center;
+}

@@ -12,6 +12,7 @@ const ImageGroup = ({images,refresh}) => {
         })
         .catch(()=>message.error(error.message))
     }
+    console.log('images',images)
     return(
         <Image.PreviewGroup>
             <Descriptions layout="vertical">

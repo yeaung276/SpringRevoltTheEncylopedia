@@ -18,13 +18,13 @@ const NewEventModel = (props)=> {
         createEvent({
             ...formData,
             datetime: formData.datetime.format('YYYY-MM-DD')+'T00:00:00.000000',
-            tags: [],
             title_img: formData.title_img?formData.title_img:''
         })
         .then(()=>{
             message.success('Event created.',5)
             form.resetFields()
             setVisible(false)
+            props.refresh()
         })
         .catch(()=>{
             message.error(error.message)

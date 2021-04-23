@@ -1,23 +1,23 @@
 from fastapi import APIRouter,Depends,HTTPException,status
 from typing import List
 from sqlalchemy.orm import Session
+import repository.dateRepository as dateRepo
 from models import models
 from database import get_db
-from schema.dateSchema import DateResponse,EventsByDateResponse
+import schema.dateSchema as dateSch
 
 dateRouter = APIRouter(
     prefix='/date',
     tags=['date']
 )
 
-@dateRouter.get('',response_model=List[DateResponse])
+@dateRouter.get('',response_model=List[dateSch.DateResponse])
 def getDates(db:Session=Depends(get_db)):
-    date = db.query(models.Date).all()
-    return date
+    return dateRepo.getAll(db)
 
-@dateRouter.get('/{id}',response_model=EventsByDateResponse)
+@dateRouter.get('/{id}',response_model=dateSch.EventsByDateResponse)
 def getEventsByDate(id:int,db:Session=Depends(get_db)):
-    events = db.query(models.Date).filter(models.Date.id==id).first()
+    events = dateRepo.getById(db,id)
     if not events:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail='not found')
     return events
