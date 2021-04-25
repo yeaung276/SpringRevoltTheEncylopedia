@@ -1,23 +1,13 @@
 import React from 'react';
-import { Image, Descriptions, Popconfirm, message } from 'antd';
-import useDeleteContent from '../Services/Contents/useDeleteContent';
+import { Image, Descriptions } from 'antd';
 
-const ImageGroup = ({images,refresh}) => {
-    const [data,{error,deleteContent}] = useDeleteContent()
-    const confirm = (id)=>{
-        deleteContent(id)
-        .then(()=>{
-            message.success('content deleted',5)
-            refresh()
-        })
-        .catch(()=>message.error(error.message))
-    }
-    console.log('images',images)
+const ImageGroup = ({images}) => {
+
     return(
         <Image.PreviewGroup>
             <Descriptions layout="vertical">
                 {images&&images.map(x=>  
-                    <Descriptions.Item key={x.id} label={<Popconfirm title="Are you sure to delete this content?" onConfirm={()=>confirm(x.id)} okText="Yes" cancelText="No">{x.label}</Popconfirm>}>
+                    <Descriptions.Item key={x.id} label={x.label}>
                     <Image
                         width={300}
                         src={x.content}

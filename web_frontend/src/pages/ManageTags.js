@@ -3,7 +3,6 @@ import {Form,Input,Button,Select, Layout, PageHeader, Spin, message} from 'antd'
 import Header from '../Components/PageHeader';
 import PageFooter from '../Components/PageFooter';
 import useGetTags from '../Services/Tags/useGetTags';
-import { reverseTimelineTypes } from '../utils/types';
 import useCreateTag from '../Services/Tags/useCreateTag';
 import useDeleteTag from '../Services/Tags/useDeleteTag';
 
@@ -18,7 +17,9 @@ wrapperCol: { span: 24 },
 function ManageTags(){
     //eslint-disable-next-line
     const [data,{loading,refetch}] = useGetTags();
+    // eslint-disable-next-line
     const [tag_data,{loading:addLoading,error:addError,createTag}] = useCreateTag();
+    // eslint-disable-next-line
     const [delete_data,{loading:deleteLoading,error:deleteError,deleteTag}] = useDeleteTag();
     const [addForm] = Form.useForm();
     const [deleteForm] = Form.useForm();
@@ -55,7 +56,6 @@ function ManageTags(){
                             ghost={false}
                             onBack={()=>window.history.back()}
                             title='Manage Tags'
-                            className='page-title'
                         />
                         <Form
                         {...layout}

@@ -83,7 +83,7 @@ code {
 }
 
 .timeline-item:hover{
-  color: rgba(135, 245, 114, 0.514);
+  color: rgba(70, 70, 70, 0.514);
   text-decoration: underline;
 }
 .video-responsive {
@@ -118,4 +118,11 @@ code {
   height: 300px;
   display: flex;
   text-align: center;
+}
+
+.content-text{
+  background-color: white;
+  padding: 1rem .5rem 1rem 1rem;
+  font-size: 1.05rem;
+  color: rgb(54, 54, 54)
 }

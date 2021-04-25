@@ -1,22 +1,11 @@
 import React from 'react';
-import useDeleteContent from '../Services/Contents/useDeleteContent';
-import { message, Popconfirm } from 'antd';
 
 
-const Video = ({url,label,id,refresh}) => {
-    const [data,{error,deleteContent}] = useDeleteContent()
+const Video = ({url,label}) => {
 
-    const confirm = ()=> {
-        deleteContent(id)
-        .then(()=>{
-            message.config('Content deleted',5)
-            refresh()
-        })
-        .catch(()=>message.error(error.message))
-    }
     return(
         <React.Fragment>
-            <Popconfirm title="Are you sure to delete this content?" onConfirm={()=>confirm()} okText="Yes" cancelText="No"><h1>{label}</h1></Popconfirm>
+            <h1>{label}</h1>
             <div className="video-responsive">
             <iframe
             width="853"

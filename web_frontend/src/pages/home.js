@@ -7,13 +7,7 @@ import img2 from '../images/2.jpg';
 import img3 from '../images/3.jpg';
 import img4 from '../images/4.jpg';
 
-const contentStyle = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
+
 function Home(){
     return(
        <Layout>

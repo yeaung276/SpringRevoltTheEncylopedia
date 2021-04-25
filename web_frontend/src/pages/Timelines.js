@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {Timeline,Breadcrumb,Menu,Dropdown,Button, Layout} from 'antd';
+import {Timeline,Breadcrumb,Menu,Dropdown, Layout} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import {withRouter} from 'react-router-dom';
 import PageHeader from '../Components/PageHeader';
@@ -16,7 +16,7 @@ import {CheckCircleOutlined} from '@ant-design/icons';
 function Timelines(props){
     const [state, setState] = React.useState('all');
 
-    const [ data, {loading, success, error}] = useGetTimelines()//add error handling
+    const [ data, {loading}] = useGetTimelines()
 
     function onClick({key}){
         setState(key)
@@ -29,7 +29,7 @@ function Timelines(props){
     }
 
     function handleClick(id){
-        props.history.push('/edit-timeline/'+id)
+        props.history.push('/content/'+id)
     }
 
     const menu = (
@@ -59,10 +59,9 @@ function Timelines(props){
                 {loading?<Loading/>:
                 <Timeline mode='left' style={{backgroundColor: 'white',padding: '1rem'}}>
                     {filter(data).map(x=>
-                        <Timeline.Item key={x.id} className='timeline-item' onClick={()=>handleClick(x.id)} label={<span className='timeline-date'>{moment(x.datetime).format('DD MMM,YY')}</span>} color={timelineColorMap[x.timeline_type]}>{x.title}</Timeline.Item>)}
+                        <Timeline.Item key={x.id} className='timeline-item' onClick={()=>handleClick(x.event_id)} label={<span className='timeline-date'>{moment(x.datetime).format('DD MMM,YY')}</span>} color={timelineColorMap[x.timeline_type]}>{x.title}</Timeline.Item>)}
                 </Timeline>
 }               
-                <Button type="primary" block onClick={()=>props.history.push('/add-new-timeline')}>Add New Timeline</Button>
             </div>
             </Layout.Content>
             <PageFooter/>
