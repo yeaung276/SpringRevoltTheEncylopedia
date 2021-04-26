@@ -7,7 +7,8 @@ function PageHeader(props){
     const tags = [
         <Button ghost={true} onClick={()=>props.history.push('/home')}>Home</Button>,
         <Button ghost={true} onClick={()=>props.history.push('/timelines')}>Timelines</Button>,
-        <Button ghost={true} onClick={()=>props.history.push('/events/1')}>Events</Button>
+        <Button ghost={true} onClick={()=>props.history.push('/events/1')}>Events</Button>,
+        <Button ghost={true} onClick={()=>props.history.push('/locations')}>Locations</Button>
     ]
 console.log(window.Width)
     return(

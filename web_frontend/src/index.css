@@ -126,3 +126,8 @@ code {
   font-size: 1.05rem;
   color: rgb(54, 54, 54)
 }
+.location-item:hover{
+  background-color: rgb(179, 179, 179);
+  border-radius: 1rem;
+  cursor: pointer;
+}

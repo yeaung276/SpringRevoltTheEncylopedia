@@ -6,6 +6,8 @@ import Timelines from './pages/Timelines';
 import Events from './pages/Events';
 import Content from './pages/Content';
 import ManageTags from './pages/ManageTags';
+import Locations from './pages/Locations';
+import LocationDetail from './pages/LocationDetail';
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
           <BrowserRouter>
           <Route path='/home' component={Home} />
           <Route path='/timelines' component={Timelines} />
+          <Route exact path='/locations' component={Locations}/>
+          <Route path='/locations/:id' component={LocationDetail}/>
           <Route path='/events/:date_id' component={Events} />
           <Route path='/content/:event_id' component={Content}/>
           <Route path='/manage-tags' component={ManageTags}/>

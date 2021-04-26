@@ -8,3 +8,5 @@ export const timelineTypes = {
 export const reverseTimelineTypes = ["Junta","CRPH","Protestors","International",'EAOs']
 
 export const timelineColorMap = ['red','green','blue','yellow','orange']
+
+export const regions = ['Kachin','Kayar','Kayin','Chin','Mon','Yakine','Shan','Saging','Mandalay','Magway','Yangon','Ayeyarwaddy','Bago','Thanintharyi']
