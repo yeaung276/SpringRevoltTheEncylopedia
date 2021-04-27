@@ -40,6 +40,8 @@ class Person(Base):
     
     id = Column(Integer, index=True, primary_key=True)
     name = Column(String)
+    org = Column(String)
+    desc = Column(String)
     age = Column(Integer)
     photo = Column(String)
     content = Column(String)

@@ -6,15 +6,17 @@ import {UnorderedListOutlined} from '@ant-design/icons';
 function PageHeader(props){
     const tags = [
         <Button ghost={true} onClick={()=>props.history.push('/home')}>Home</Button>,
+        <Button ghost={true} onClick={()=>props.history.push('/manage-tags')}>Manage Tags</Button>,
         <Button ghost={true} onClick={()=>props.history.push('/timelines')}>Timelines</Button>,
         <Button ghost={true} onClick={()=>props.history.push('/events/1')}>Events</Button>,
-        <Button ghost={true} onClick={()=>props.history.push('/locations')}>Locations</Button>
+        <Button ghost={true} onClick={()=>props.history.push('/locations')}>Location</Button>,
+        <Button ghost={true} onClick={()=>props.history.push('/persons')}>Person & Orgs</Button>
     ]
-console.log(window.Width)
+
     return(
         <Layout.Header style={{backgroundColor: '#843b62'}} className='header'>
-            <span style={{color: '#0b032d',fontSize: window.innerWidth > 370 ?'1.5rem':'1rem',fontWeight: 'bold'}} className='logo'>Spring Revolution Myanmar</span>
-            {window.innerWidth > 370 ? <Space style={{float: 'right'}}>
+            <span style={{color: '#0b032d',fontSize: window.innerWidth > 1023 ?'1.5rem':'1rem',fontWeight: 'bold'}} className='logo'>Spring Revolution Myanmar</span>
+            {window.innerWidth > 1023 ? <Space style={{float: 'right'}}>
                 {tags.map(x=>x)}
             </Space>:
             <Space style={{float: 'right'}}>

@@ -32,6 +32,11 @@ code {
 .container{
   margin: 1rem 3rem 1rem 3rem;
 }
+@media only screen and (max-width: 360px){
+  .container{
+    margin: 1rem .3rem 1rem .3rem
+  }
+}
 .white-container{
   background-color: white;
   padding: 1rem 3rem 1rem 3rem;

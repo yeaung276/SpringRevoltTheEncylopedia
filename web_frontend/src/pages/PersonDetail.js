@@ -2,16 +2,15 @@ import React from 'react';
 import { Layout, PageHeader, Image, Row, Col, Form, Spin } from 'antd';
 import Header from '../Components/PageHeader';
 import PageFooter from '../Components/PageFooter';
-import useGetLocation from '../Services/Locations/useGetLocation';
-
+import useGetPerson from '../Services/Persons/useGetPerson';
 const layout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 14 },
   };
-function LocationDetail(props){
-    const locationId = props.match.params.id;
+function PersonDetail(props){
+    const personId = props.match.params.id;
 
-    const [data,{loading}] = useGetLocation(locationId);
+    const [data,{loading}] = useGetPerson(personId);
 
 
     return(
@@ -24,20 +23,21 @@ function LocationDetail(props){
                     onBack={() => window.history.back()}
                     title={loading?<Spin/>:data.name}
                     extra={[
-                       
+
                     ]}
                 >
                 <Row>
                     <Col lg={14} sm={24}>
                         <Form {...layout}>
-                            <Form.Item label="Location">{loading?<Spin/>:data.address}</Form.Item>
-                            <Form.Item label="Region">{loading?<Spin/>:data.region}</Form.Item>
+                            <Form.Item label="Description">{loading?<Spin/>:data.desc}</Form.Item>
+                            <Form.Item label="Organization">{loading?<Spin/>:data.org}</Form.Item>
+                            <Form.Item label='Age'>{loading?<Spin/>:data.age}</Form.Item>
                         </Form>
                     </Col>
                     <Col lg={10} sm={24}>
                         <Image 
                             width='100%'
-                            src={data.cover_img}
+                            src={data.photo}
                         />
                     </Col>
                 </Row>
@@ -50,4 +50,4 @@ function LocationDetail(props){
     )
 }
 
-export default LocationDetail;
+export default PersonDetail;

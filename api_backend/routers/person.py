@@ -5,9 +5,13 @@ import schema.personSchema as personSch
 from database import get_db
 
 personRouter = APIRouter(
-    prefix='/person',
+    prefix='/persons',
     tags=['person']
 )
+
+@personRouter.get('')
+def getAll(db:Session=Depends(get_db)):
+    return personRepo.getAll(db)
 
 @personRouter.get('/{id}')
 def getById(id,db:Session=Depends(get_db)):
